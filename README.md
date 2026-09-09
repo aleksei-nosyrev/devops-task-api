@@ -1,1 +1,1 @@
-Учебный DevOps проект, в нем будет использованы Docker, Kubernetes, Helm, CI/CD
+Учебный DevOps проект, в нем будут использованы Docker, Kubernetes, Helm, CI/CD
