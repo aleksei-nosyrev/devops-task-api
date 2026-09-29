@@ -30,13 +30,21 @@ def health():
     return {"status": "ok"}
 
 
-@app.get("/db-health")
-def db_health():
-    with psycopg.connect(DATABASE_URL) as conn:
-        with conn.cursor() as cursor:
-            cursor.execute ("SELECT 1") 
+@app.get("/ready")
+def readiness():
+    try:
+        with psycopg.connect(DATABASE_URL) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT 1")
 
-            return {"database": "ok"}
+        return {"status": "ready"}
+    
+    except psycopg.Error:
+        raise HTTPException(
+            status_code=503,
+            detail="Database unavailable"
+        )    
+
 
 
 @app.get("/tasks")

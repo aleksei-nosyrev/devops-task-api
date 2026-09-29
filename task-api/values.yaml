@@ -1,0 +1,33 @@
+# Default values for task-api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+#
+#
+api:
+  replicaCount: 1
+
+  image:
+    repository: devops-task-api   
+    pullPolicy: IfNotPresent
+    tag: "v1"
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+ingress:
+  enabled: true
+  host: task-api.local
+
+db:
+  user: taskuser
+  name: taskdb
+
+  image:
+    repository: postgres
+    tag: "17"
+
+  persistence:
+    size: 1Gi

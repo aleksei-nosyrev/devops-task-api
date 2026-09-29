@@ -1,10 +1,14 @@
 services: 
   api: 
-    build: . 
+    build: .
+    image: devops-task-api:v1
     ports: 
       - "8000:8000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
+    depends_on: 
+      db:
+        condition: service_healthy
   
   db: 
     image: postgres:17
@@ -15,6 +19,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data 
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data: 
