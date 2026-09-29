@@ -29,4 +29,10 @@ jobs:
         run: python -c "import app.main"
 
       - name: Build docker image
-        run: docker build -t devops-task-api:ci . 
+        run: docker build -t devops-task-api:ci .
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Lint Helm chart
+        run: helm lint ./task-api --set db.password=ci-test-password
