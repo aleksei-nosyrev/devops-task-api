@@ -23,10 +23,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements-dev.txt
 
       - name: Check application import
-        run: python -c "import app.main"
+        run: python -m pytest -v
 
       - name: Build docker image
         run: docker build -t devops-task-api:ci .
